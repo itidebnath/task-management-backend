@@ -17,7 +17,7 @@ const app = express()
 app.use(cors({
   origin: [
       "http://localhost:5173",
-      "https://task-management-frontend-six-smoky.vercel.app/"
+      "https://task-management-frontend-six-smoky.vercel.app"
     ],
   credentials: true
 }))
