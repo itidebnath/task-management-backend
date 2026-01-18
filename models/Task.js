@@ -1,30 +1,26 @@
 import mongoose from "mongoose"
 
-const taskSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
+const taskSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    assignedTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    completed: {
+      type: Boolean,
+      default: true, // ✅ VERY IMPORTANT
+    },
+    notCompletedReason: {
+      type: String,
+      default: "",
+    },
   },
-
-  assignedTo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
-
-  completed: {
-    type: Boolean,
-    default: false,
-  },
-
-  notCompletedReason: {
-    type: String,
-    default: "",
-  },
-
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-})
+  { timestamps: true }
+)
 
 export default mongoose.model("Task", taskSchema)
