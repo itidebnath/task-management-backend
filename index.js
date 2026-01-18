@@ -19,9 +19,7 @@ app.use(cors({
       "http://localhost:5173",
       "https://task-management-frontend-six-smoky.vercel.app"
     ],
-  credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization"],
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
+  credentials: true
 }))
 app.use(express.json())
 

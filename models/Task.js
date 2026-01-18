@@ -2,10 +2,7 @@ import mongoose from "mongoose"
 
 const taskSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-    },
+    title: { type: String, required: true },
     assignedTo: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -13,7 +10,7 @@ const taskSchema = new mongoose.Schema(
     },
     completed: {
       type: Boolean,
-      default: false, // ✅ VERY IMPORTANT
+      default: false,
     },
     notCompletedReason: {
       type: String,

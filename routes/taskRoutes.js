@@ -75,4 +75,3 @@ router.patch("/:id/toggle", auth, async (req, res) => {
 })
 
 export default router
-
