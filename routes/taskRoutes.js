@@ -40,42 +40,39 @@ router.get("/mytasks", auth, async (req, res) => {
   res.json(tasks)
 })
 
-router.patch("/:id/status", auth, async (req, res) => {
+// User: toggle complete WITH reason
+router.patch("/:id/toggle", auth, async (req, res) => {
   try {
-    const { status, reason } = req.body
-
-    if (!["completed", "not_completed"].includes(status)) {
-      return res.status(400).json({ msg: "Invalid status" })
-    }
+    const { reason } = req.body
 
     const task = await Task.findById(req.params.id)
     if (!task) return res.status(404).json({ msg: "Task not found" })
 
-    if (task.assignedTo.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ msg: "Unauthorized" })
-    }
+    if (task.assignedTo.toString() !== req.user._id.toString())
+      return res.status(403).json({ msg: "Not your task" })
 
-    if (status === "completed") {
-      task.completed = true
-      task.notCompletedReason = ""
-    }
-
-    if (status === "not_completed") {
-      if (!reason || !reason.trim()) {
-        return res.status(400).json({ msg: "Reason required" })
+    // If marking as NOT completed → reason required
+    if (task.completed === true) {
+      if (!reason || reason.trim() === "") {
+        return res.status(400).json({
+          msg: "Reason is required when marking task as not completed",
+        })
       }
       task.completed = false
       task.notCompletedReason = reason
+    } 
+    // If marking as completed → clear reason
+    else {
+      task.completed = true
+      task.notCompletedReason = ""
     }
 
     await task.save()
     res.json(task)
   } catch (err) {
-    console.error(err)
-    res.status(500).json({ msg: "Status update failed" })
+    res.status(500).json({ msg: "Toggle failed" })
   }
 })
 
-
-
 export default router
+
