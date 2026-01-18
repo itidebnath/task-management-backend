@@ -13,7 +13,7 @@ const taskSchema = new mongoose.Schema(
     },
     completed: {
       type: Boolean,
-      default: true, // ✅ VERY IMPORTANT
+      default: false, // ✅ VERY IMPORTANT
     },
     notCompletedReason: {
       type: String,
